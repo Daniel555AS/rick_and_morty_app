@@ -16,7 +16,7 @@ class CharacterGrid extends StatelessWidget {
         crossAxisCount: 2, // Columas}
         mainAxisSpacing: 10.0,
         crossAxisSpacing: 15.0,
-        childAspectRatio: 0.65,
+        childAspectRatio: 0.62,
       ),
       itemBuilder: (context, index) {
         return CharacterCard(character: characters[index]);
