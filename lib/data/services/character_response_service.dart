@@ -4,13 +4,14 @@ import 'package:rick_and_morty_app/data/models/character_response_model.dart';
 class CharacterResponseService {
   final ApiClient _apiClient = ApiClient();
 
-  Future<CharacterResponseModel> getCharacterResponseModelByName({
+  Future<CharacterResponseModel> getCharacterResponseModelByNameAndPage({
     String? name,
+    int? page = 1,
   }) async {
-    String endpoint = "character";
+    String endpoint = "character?page=$page";
 
     if (name != null && name.isNotEmpty) {
-      endpoint += "?name=$name";
+      endpoint += "&name=$name";
     }
 
     final responseBody = await _apiClient.get(endpoint);

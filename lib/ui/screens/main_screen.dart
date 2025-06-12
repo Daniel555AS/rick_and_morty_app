@@ -50,13 +50,15 @@ class _MainScreenState extends State<MainScreen> {
 
     try {
       final characterResponse = await _characterResponseRepository
-          .getCharacterResponseModelByName(name);
+          .getCharacterResponseModelByNameAndPage(
+            name: name,
+            page: _currentPage,
+          );
       setState(() {
         _characters = characterResponse.characters;
         _info = characterResponse.info;
         _isLoading = false;
         _totalPages = _info!.pages;
-        _currentPage = 1;
       });
     } catch (e) {
       setState(() {
@@ -64,6 +66,7 @@ class _MainScreenState extends State<MainScreen> {
         _info = null;
         _isLoading = false;
         _totalPages = 0;
+        _currentPage = 1;
       });
     }
   }
@@ -91,10 +94,14 @@ class _MainScreenState extends State<MainScreen> {
                 currentPage: _currentPage,
                 totalPages: _totalPages,
                 onPageChanged: (newPage) {
-                  if(newPage > 0 && newPage != _currentPage && newPage <= _totalPages) {
+                  if (newPage > 0 &&
+                      newPage != _currentPage &&
+                      newPage <= _totalPages) {
                     setState(() {
                       _currentPage = newPage;
                     });
+
+                    _searchCharacters(name: _searchController.text);
                   }
                 },
               ),

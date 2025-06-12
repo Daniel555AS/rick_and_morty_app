@@ -5,11 +5,12 @@ class CharacterResponseRepository {
   final CharacterResponseService _characterResponseService =
       CharacterResponseService();
 
-  Future<CharacterResponseModel> getCharacterResponseModelByName(
+  Future<CharacterResponseModel> getCharacterResponseModelByNameAndPage({
     String? name,
-  ) async {
-    return await _characterResponseService.getCharacterResponseModelByName(
-      name: name,
+    int? page = 1,
+  }) async {
+    return await _characterResponseService.getCharacterResponseModelByNameAndPage(
+      name: name, page: page
     );
   }
 }
