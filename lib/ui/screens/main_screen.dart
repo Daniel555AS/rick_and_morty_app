@@ -6,6 +6,7 @@ import 'package:rick_and_morty_app/data/models/info_model.dart';
 import 'package:rick_and_morty_app/data/repositories/character_response_repository.dart';
 import 'package:rick_and_morty_app/ui/components/character_grid.dart';
 import 'package:rick_and_morty_app/ui/components/main_text_field.dart';
+import 'package:rick_and_morty_app/ui/components/pagination_controls.dart';
 import 'package:rick_and_morty_app/ui/components/rick_and_morty_loading.dart';
 
 class MainScreen extends StatefulWidget {
@@ -16,11 +17,14 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final CharacterResponseRepository _characterResponseRepository = CharacterResponseRepository();
+  final CharacterResponseRepository _characterResponseRepository =
+      CharacterResponseRepository();
   final TextEditingController _searchController = TextEditingController();
   bool _isLoading = false;
   List<CharacterModel> _characters = [];
   InfoModel? _info;
+  int _currentPage = 1;
+  int _totalPages = 0;
 
   @override
   void initState() {
@@ -45,17 +49,21 @@ class _MainScreenState extends State<MainScreen> {
     });
 
     try {
-      final characterResponse = await _characterResponseRepository.getCharacterResponseModelByName(name);
+      final characterResponse = await _characterResponseRepository
+          .getCharacterResponseModelByName(name);
       setState(() {
         _characters = characterResponse.characters;
         _info = characterResponse.info;
         _isLoading = false;
+        _totalPages = _info!.pages;
+        _currentPage = 1;
       });
     } catch (e) {
       setState(() {
         _characters = [];
         _info = null;
         _isLoading = false;
+        _totalPages = 0;
       });
     }
   }
@@ -77,8 +85,19 @@ class _MainScreenState extends State<MainScreen> {
         builder: (BuildContext innerContext) {
           return Column(
             children: [
-              MainTextField(controller: _searchController,),
+              MainTextField(controller: _searchController),
               Expanded(child: _buildBodyContent()),
+              PaginationControls(
+                currentPage: _currentPage,
+                totalPages: _totalPages,
+                onPageChanged: (newPage) {
+                  if(newPage > 0 && newPage != _currentPage && newPage <= _totalPages) {
+                    setState(() {
+                      _currentPage = newPage;
+                    });
+                  }
+                },
+              ),
             ],
           );
         },
