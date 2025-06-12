@@ -46,15 +46,24 @@ class PaginationControls extends StatelessWidget {
         for (int i = currentPage; i <= totalPages; i++) {
           pages.add(i);
         }
+        while (pages[0] > 1 && pages.length < 4) {
+          pages.insert(0, pages[0] - 1);
+
+          if (pages.length == 4 && totalPages - currentPage <= 2) {
+            pages[0] = 1;
+          }
+        }
       }
 
       for (int i = 0; i < pages.length; i++) {
+        Text child = _getFloatingActionButtonChild(i, pages) as Text;
+
         buttonsList.add(
           _createFloatingActionButton(
-            _getFloatingActionButtonChild(i, pages.length, pages[i]),
+            child,
             () => onPageChanged(pages[i]),
             pages[i] == currentPage,
-            i == pages.length - 1,
+            child.data!.startsWith("...") || child.data!.endsWith("..."),
           ),
         );
       }
@@ -79,7 +88,7 @@ class PaginationControls extends StatelessWidget {
     Widget child,
     Function() onPressed,
     bool isCurrent,
-    bool isLast,
+    bool isAnExtreme,
   ) {
     return Padding(
       padding: const EdgeInsets.only(
@@ -90,10 +99,13 @@ class PaginationControls extends StatelessWidget {
       ),
       child: SizedBox(
         height: 40.0,
-        width: isLast ? 50.0 : 40.0,
+        width: isAnExtreme ? 50.0 : 40.0,
         child: FloatingActionButton(
           onPressed: onPressed,
-          backgroundColor: isCurrent ? AppColors.currentButtonBackgroundColor : AppColors.buttonBackgroundColor,
+          backgroundColor:
+              isCurrent
+                  ? AppColors.currentButtonBackgroundColor
+                  : AppColors.buttonBackgroundColor,
           foregroundColor: AppColors.buttonForegroundColor,
           child: child,
         ),
@@ -101,14 +113,16 @@ class PaginationControls extends StatelessWidget {
     );
   }
 
-  Widget _getFloatingActionButtonChild(
-    int iterationValue,
-    int length,
-    int page,
-  ) {
-    if (iterationValue > 2 && iterationValue == length - 1) {
-      return Text("... $page");
+  Widget _getFloatingActionButtonChild(int iterationValue, List<int> pages) {
+    if (iterationValue == pages.length - 1 &&
+        iterationValue > 1 &&
+        pages[iterationValue] - pages[pages.length - 2] > 1) {
+      return Text("...${pages[iterationValue]}");
+    } else if (pages.length >= 2 &&
+        pages[iterationValue] == 1 &&
+        pages[iterationValue + 1] - 1 != 1) {
+      return Text("${pages[iterationValue]}...");
     }
-    return Text(page.toString());
+    return Text(pages[iterationValue].toString());
   }
 }
