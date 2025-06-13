@@ -36,4 +36,29 @@ class TextStyles {
     color: AppColors.characterStatusAndGender,
     fontWeight: FontWeight.w500,
   );
+
+  // Character Details Screen
+  static const TextStyle characterDetailsTitle = TextStyle(
+    color: AppColors.subtitleCharacter,
+    fontSize: 30.0,
+    fontWeight: FontWeight.w900,
+  );
+
+  static const TextStyle characterDetailsName = TextStyle(
+    color: AppColors.characterStatusAndGender,
+    fontSize: 35.0,
+    fontWeight: FontWeight.w800,
+  );
+
+  static const TextStyle characterDetailsStatusAndGender = TextStyle(
+    color: AppColors.bodyCharacter,
+    fontSize: 18.0,
+    fontWeight: FontWeight.w500,
+  );
+
+    static const TextStyle characterDetailsSubtitleCharacter = TextStyle(
+    color: AppColors.subtitleCharacter,
+    fontSize: 22.0,
+    fontWeight: FontWeight.w600,
+  );
 }

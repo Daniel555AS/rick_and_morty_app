@@ -14,8 +14,8 @@ class CharacterResponseService {
       endpoint += "&name=$name";
     }
 
-    final responseBody = await _apiClient.get(endpoint);
+    final response = await _apiClient.get(endpoint);
 
-    return CharacterResponseModel.fromJson(responseBody);
+    return CharacterResponseModel.fromJson(response);
   }
 }

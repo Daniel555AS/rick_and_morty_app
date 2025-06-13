@@ -74,15 +74,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            "Rick and Morty Wiki",
-            style: TextStyles.scaffoldAppBarTitle,
-          ),
-        ),
-        backgroundColor: AppColors.scaffoldAppBarBackground,
-      ),
+      appBar: _getAppBar(),
       backgroundColor: AppColors.scaffoldBackground,
       body: Builder(
         builder: (BuildContext innerContext) {
@@ -109,6 +101,18 @@ class _MainScreenState extends State<MainScreen> {
           );
         },
       ),
+    );
+  }
+
+  AppBar _getAppBar() {
+    return AppBar(
+      title: Center(
+        child: Text(
+          "Rick and Morty Wiki",
+          style: TextStyles.scaffoldAppBarTitle,
+        ),
+      ),
+      backgroundColor: AppColors.scaffoldAppBarBackground,
     );
   }
 }
