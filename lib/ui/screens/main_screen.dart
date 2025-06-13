@@ -33,6 +33,8 @@ class _MainScreenState extends State<MainScreen> {
     _searchController.addListener(() {
       _searchCharacters(name: _searchController.text);
     });
+
+    _searchCharacters();
   }
 
   Widget _buildBodyContent() {

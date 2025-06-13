@@ -66,104 +66,104 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
       return RickAndMortyLoading();
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 25.0, bottom: 25.0),
-      child: Center(
-        child: SizedBox(
-          width: contentWidth,
-          child: ListView(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-                child: Image.network(
-                  widget.character.image,
-                  width: double.infinity,
-                  fit: BoxFit.cover, // Opcional
-                ),
+    return Center(
+      child: SizedBox(
+        width: contentWidth,
+        child: ListView(
+          children: [
+            SizedBox(height: 40.0),
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30.0),
+                topRight: Radius.circular(30.0),
               ),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: AppColors.characterBoxDecotarion,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(30.0),
-                      bottomRight: Radius.circular(30.0),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          widget.character.name,
-                          style: TextStyles.characterDetailsName,
-                          textAlign: TextAlign.center,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.circle,
-                              size: 15,
-                              color: _getStatusColor(widget.character.status),
-                            ),
-                            Flexible(
-                              child: Text(
-                                "${widget.character.status} - ${widget.character.gender}",
-                                style:
-                                    TextStyles.characterDetailsStatusAndGender,
-                                maxLines: 2,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 35.0),
-                        Text(
-                          "Origin",
-                          style: TextStyles.characterDetailsSubtitleCharacter,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          widget.character.origin.name,
-                          style: TextStyles.characterDetailsStatusAndGender,
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 15.0),
-                        Text(
-                          "Last Know Location",
-                          style: TextStyles.characterDetailsSubtitleCharacter,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          widget.character.location.name,
-                          style: TextStyles.characterDetailsStatusAndGender,
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 15.0),
-                        Text(
-                          "First Seen In",
-                          style: TextStyles.characterDetailsSubtitleCharacter,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          (_firstEpisode != null)
-                              ? "${_firstEpisode!.episode}: ${_firstEpisode!.name}"
-                              : "ERROR: Data could not be obtained...",
-                          style: TextStyles.characterDetailsStatusAndGender,
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
+              child: Image.network(
+                widget.character.image,
+                width: double.infinity,
+                fit: BoxFit.cover, // Opcional
+              ),
+            ),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.characterBoxDecotarion,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: Radius.circular(30.0),
                   ),
                 ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10.0,
+                    bottom: 30.0,
+                    left: 10.0,
+                    right: 10.0,
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        widget.character.name,
+                        style: TextStyles.characterDetailsName,
+                        textAlign: TextAlign.center,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            size: 15,
+                            color: _getStatusColor(widget.character.status),
+                          ),
+                          Flexible(
+                            child: Text(
+                              "${widget.character.status} - ${widget.character.gender}",
+                              style: TextStyles.characterDetailsStatusAndGender,
+                              maxLines: 2,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 35.0),
+                      _getCharacterDetailSubtitle(
+                        "Origin",
+                        Icons.location_history,
+                      ),
+                      Text(
+                        widget.character.origin.name,
+                        style: TextStyles.characterDetailsStatusAndGender,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 15.0),
+                      _getCharacterDetailSubtitle(
+                        "Last Know Location",
+                        Icons.place_rounded,
+                      ),
+                      Text(
+                        widget.character.location.name,
+                        style: TextStyles.characterDetailsStatusAndGender,
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 15.0),
+                      _getCharacterDetailSubtitle(
+                        "First Seen In",
+                        Icons.tv_rounded,
+                      ),
+                      Text(
+                        (_firstEpisode != null)
+                            ? "${_firstEpisode!.episode}: ${_firstEpisode!.name}"
+                            : "ERROR: Data could not be obtained...",
+                        style: TextStyles.characterDetailsStatusAndGender,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: 40.0),
+          ],
         ),
       ),
     );
@@ -190,5 +190,20 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
       default:
         return AppColors.unknown;
     }
+  }
+
+  Widget _getCharacterDetailSubtitle(String text, IconData icon) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          text,
+          style: TextStyles.characterDetailsSubtitleCharacter,
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(width: 5.0),
+        Icon(icon, size: 25.0, color: AppColors.subtitleCharacter),
+      ],
+    );
   }
 }
