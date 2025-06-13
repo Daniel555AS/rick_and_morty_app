@@ -6,6 +6,7 @@ class AppColors {
   
   // Scaffold - AppBar
   static const Color scaffoldAppBarBackground = Color(0xFF343434);
+  static const Color scaffoldAppBarForeground = Color(0xFFFFFFFF);
   static const Color scaffoldBackground = Color(0xFF2D2E2E);
 
   // TextField

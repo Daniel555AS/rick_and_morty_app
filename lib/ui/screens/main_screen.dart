@@ -41,7 +41,26 @@ class _MainScreenState extends State<MainScreen> {
     if (_isLoading) {
       return RickAndMortyLoading();
     } else {
-      return CharacterGrid(characters: _characters);
+      return Column(
+        children: [
+          Expanded(child: CharacterGrid(characters: _characters)),
+          PaginationControls(
+            currentPage: _currentPage,
+            totalPages: _totalPages,
+            onPageChanged: (newPage) {
+              if (newPage > 0 &&
+                  newPage != _currentPage &&
+                  newPage <= _totalPages) {
+                setState(() {
+                  _currentPage = newPage;
+                });
+
+                _searchCharacters(name: _searchController.text);
+              }
+            },
+          ),
+        ],
+      );
     }
   }
 
@@ -84,21 +103,6 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               MainTextField(controller: _searchController),
               Expanded(child: _buildBodyContent()),
-              PaginationControls(
-                currentPage: _currentPage,
-                totalPages: _totalPages,
-                onPageChanged: (newPage) {
-                  if (newPage > 0 &&
-                      newPage != _currentPage &&
-                      newPage <= _totalPages) {
-                    setState(() {
-                      _currentPage = newPage;
-                    });
-
-                    _searchCharacters(name: _searchController.text);
-                  }
-                },
-              ),
             ],
           );
         },

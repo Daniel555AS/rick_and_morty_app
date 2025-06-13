@@ -178,6 +178,7 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
         ),
       ),
       backgroundColor: AppColors.scaffoldAppBarBackground,
+      foregroundColor: AppColors.scaffoldAppBarForeground,
     );
   }
 
