@@ -6,6 +6,7 @@ import 'package:rick_and_morty_app/data/models/info_model.dart';
 import 'package:rick_and_morty_app/data/repositories/character_response_repository.dart';
 import 'package:rick_and_morty_app/ui/components/character_grid.dart';
 import 'package:rick_and_morty_app/ui/components/main_text_field.dart';
+import 'package:rick_and_morty_app/ui/components/no_characters_found.dart';
 import 'package:rick_and_morty_app/ui/components/pagination_controls.dart';
 import 'package:rick_and_morty_app/ui/components/rick_and_morty_loading.dart';
 
@@ -40,6 +41,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildBodyContent() {
     if (_isLoading) {
       return RickAndMortyLoading();
+    } else if (_characters.isEmpty) {
+      return NoCharactersFound();
     } else {
       return Column(
         children: [
