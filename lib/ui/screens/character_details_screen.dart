@@ -18,35 +18,46 @@ class CharacterDetailsScreen extends StatefulWidget {
 class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
   final EpisodeRepository _episodeRepository = EpisodeRepository();
   bool _isLoading = true;
-  EpisodeModel? _firstEpisode;
+  List<EpisodeModel> _episodes = [];
 
-  Future<void> _getFirstEpisodeFromCharacter() async {
+  Future<void> _getEpisodesFromCharacter() async {
     setState(() {
       _isLoading = true;
     });
 
+    List<String> episodesUrls = widget.character.episode;
+    List<int> episodesIds = [];
+
     try {
-      final episode = await _episodeRepository.getEpisodeById(
-        int.parse(
-          widget.character.episode[0].replaceAll(
-            "https://rickandmortyapi.com/api/episode/",
-            "",
+      for (int i = 0; i < episodesUrls.length; i++) {
+        episodesIds.add(
+          int.parse(
+            episodesUrls[i].replaceAll(
+              "https://rickandmortyapi.com/api/episode/",
+              "",
+            ),
           ),
-        ),
-      );
+        );
+      }
+
+      final response = await _episodeRepository.getEpisodesByIds(episodesIds);
+
       setState(() {
-        _firstEpisode = episode;
+        _episodes = response;
         _isLoading = false;
       });
     } catch (e) {
-      _isLoading = false;
+      setState(() {
+        _isLoading = false;
+        _episodes = [];
+      });
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _getFirstEpisodeFromCharacter();
+    _getEpisodesFromCharacter();
   }
 
   @override
@@ -118,7 +129,7 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
                           Flexible(
                             child: Text(
                               "${widget.character.status} - ${widget.character.gender}",
-                              style: TextStyles.characterDetailsStatusAndGender,
+                              style: TextStyles.characterDetails,
                               maxLines: 2,
                               textAlign: TextAlign.center,
                             ),
@@ -132,7 +143,7 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
                       ),
                       Text(
                         widget.character.origin.name,
-                        style: TextStyles.characterDetailsStatusAndGender,
+                        style: TextStyles.characterDetails,
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 15.0),
@@ -142,7 +153,7 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
                       ),
                       Text(
                         widget.character.location.name,
-                        style: TextStyles.characterDetailsStatusAndGender,
+                        style: TextStyles.characterDetails,
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 15.0),
@@ -151,12 +162,14 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
                         Icons.tv_rounded,
                       ),
                       Text(
-                        (_firstEpisode != null)
-                            ? "${_firstEpisode!.episode}: ${_firstEpisode!.name}"
+                        (_episodes.isNotEmpty)
+                            ? "${_episodes[0].episode}: ${_episodes[0].name}"
                             : "ERROR: Data could not be obtained...",
-                        style: TextStyles.characterDetailsStatusAndGender,
+                        style: TextStyles.characterDetails,
                         textAlign: TextAlign.center,
                       ),
+
+                      _getFeaturedEpisodesSection(),
                     ],
                   ),
                 ),
@@ -167,6 +180,68 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
         ),
       ),
     );
+  }
+
+  Widget _getFeaturedEpisodesSection() {
+    return ExpansionTile(
+      title: Text(
+        "Featured Episodes",
+        style: TextStyles.characterDetailsFeaturedEpisodes,
+      ),
+      leading: Icon(
+        Icons.play_circle_outlined,
+        color: AppColors.episodesIconColor,
+      ),
+      iconColor: AppColors.episodesIconColor,
+      collapsedIconColor: AppColors.episodesIconColor,
+      children: _getFeaturedEpisodesSubSections(),
+    );
+  }
+
+  List<Widget> _getFeaturedEpisodesSubSections() {
+    List<Widget> episodes = [];
+
+    for (int i = 0; i < _episodes.length; i++) {
+      episodes.add(
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColors.chapterSectionBackground,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${_episodes[i].episode} : ${_episodes[i].name}",
+                    style: TextStyles.characterDetails,
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_month_rounded,
+                        color: AppColors.calendarIconColor,
+                      ),
+                      SizedBox(width: 10.0),
+                      Text(
+                        _episodes[0].airDate,
+                        style: TextStyles.episodeDateDescription,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return episodes;
   }
 
   AppBar _getAppBar() {

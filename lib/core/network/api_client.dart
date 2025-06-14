@@ -5,7 +5,7 @@ import 'package:rick_and_morty_app/core/exceptions/api_exception.dart';
 class ApiClient {
   final String _baseURL = "https://rickandmortyapi.com/api";
 
-  Future<Map<String, dynamic>> get(String endpoint) async {
+  Future<dynamic> get(String endpoint) async {
     final response = await http.get(Uri.parse("$_baseURL/$endpoint"));
 
     if (response.statusCode == 200) {

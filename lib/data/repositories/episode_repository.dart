@@ -7,4 +7,16 @@ class EpisodeRepository {
   Future<EpisodeModel> getEpisodeById(int id) async {
     return await _episodeService.getEpisodeById(id);
   }
+
+  Future<List<EpisodeModel>> getEpisodesByIds(List<int> episodesIds) async {
+    List<EpisodeModel> episodes = [];
+
+    final rawList = await _episodeService.getEpisodesByIds(episodesIds);
+
+    for (Map<String, dynamic> json in rawList) {
+      episodes.add(EpisodeModel.fromJson(json));
+    }
+
+    return episodes;
+  }
 }

@@ -50,15 +50,27 @@ class TextStyles {
     fontWeight: FontWeight.w800,
   );
 
-  static const TextStyle characterDetailsStatusAndGender = TextStyle(
+  static const TextStyle characterDetails = TextStyle(
     color: AppColors.bodyCharacter,
     fontSize: 18.0,
     fontWeight: FontWeight.w500,
   );
 
-    static const TextStyle characterDetailsSubtitleCharacter = TextStyle(
+  static const TextStyle characterDetailsSubtitleCharacter = TextStyle(
     color: AppColors.subtitleCharacter,
     fontSize: 22.0,
     fontWeight: FontWeight.w600,
+  );
+
+  static const TextStyle characterDetailsFeaturedEpisodes = TextStyle(
+    color: AppColors.subtitleCharacter,
+    fontSize: 18.0,
+    fontWeight: FontWeight.w500,
+  );
+
+  static const TextStyle episodeDateDescription = TextStyle(
+    color: AppColors.episodeDateDescription,
+    fontSize: 13.0,
+    fontWeight: FontWeight.w400,
   );
 }

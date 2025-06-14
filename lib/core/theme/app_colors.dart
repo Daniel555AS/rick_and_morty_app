@@ -30,4 +30,10 @@ class AppColors {
   static const Color bodyCharacter = Color(0xFFFFFFFF) ;
   static const Color characterStatusAndGender = Color(0xFFD7D7D7);
   static const Color characterBoxDecotarion = Color(0xFF797B7F);
+
+  // Character Details Screen
+  static const Color chapterSectionBackground = Color(0xFF8D8D8D);
+  static const Color calendarIconColor = Color(0xFF484848);
+  static const Color episodesIconColor = Color(0xFF484848);
+  static const Color episodeDateDescription = Color(0xFF2B2B2B);
 }

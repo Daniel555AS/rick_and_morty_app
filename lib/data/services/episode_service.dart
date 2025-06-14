@@ -11,4 +11,14 @@ class EpisodeService {
 
     return EpisodeModel.fromJson(response);
   }
+
+  Future<List<Map<String, dynamic>>> getEpisodesByIds(
+    List<int> episodesIds,
+  ) async {
+    String endpoint = "episode/$episodesIds";
+
+    final response = await _apiClient.get(endpoint);
+
+    return List<Map<String, dynamic>>.from(response);
+  }
 }
