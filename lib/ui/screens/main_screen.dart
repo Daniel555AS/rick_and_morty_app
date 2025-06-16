@@ -26,13 +26,20 @@ class _MainScreenState extends State<MainScreen> {
   InfoModel? _info;
   int _currentPage = 1;
   int _totalPages = 0;
+  String _lastSearchTerm = "";
 
   @override
   void initState() {
     super.initState();
 
     _searchController.addListener(() {
-      _searchCharacters(name: _searchController.text);
+      final currentSearchTerm = _searchController.text.trim();
+
+      if (currentSearchTerm != _lastSearchTerm) {
+        _lastSearchTerm = currentSearchTerm;
+        _currentPage = 1;
+        _searchCharacters(name: currentSearchTerm);
+      }
     });
 
     _searchCharacters();
@@ -44,26 +51,7 @@ class _MainScreenState extends State<MainScreen> {
     } else if (_characters.isEmpty) {
       return NoCharactersFound();
     } else {
-      return Column(
-        children: [
-          Expanded(child: CharacterGrid(characters: _characters)),
-          PaginationControls(
-            currentPage: _currentPage,
-            totalPages: _totalPages,
-            onPageChanged: (newPage) {
-              if (newPage > 0 &&
-                  newPage != _currentPage &&
-                  newPage <= _totalPages) {
-                setState(() {
-                  _currentPage = newPage;
-                });
-
-                _searchCharacters(name: _searchController.text);
-              }
-            },
-          ),
-        ],
-      );
+      return Expanded(child: CharacterGrid(characters: _characters));
     }
   }
 
@@ -106,6 +94,21 @@ class _MainScreenState extends State<MainScreen> {
             children: [
               MainTextField(controller: _searchController),
               Expanded(child: _buildBodyContent()),
+              PaginationControls(
+                currentPage: _currentPage,
+                totalPages: _totalPages,
+                onPageChanged: (newPage) {
+                  if (newPage > 0 &&
+                      newPage != _currentPage &&
+                      newPage <= _totalPages) {
+                    setState(() {
+                      _currentPage = newPage;
+                    });
+
+                    _searchCharacters(name: _searchController.text);
+                  }
+                },
+              ),
             ],
           );
         },
