@@ -94,84 +94,82 @@ class _CharacterDetailsScreenState extends State<CharacterDetailsScreen> {
                 fit: BoxFit.cover, // Opcional
               ),
             ),
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColors.characterBoxDecotarion,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30.0),
-                    bottomRight: Radius.circular(30.0),
-                  ),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.characterBoxDecotarion,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30.0),
+                  bottomRight: Radius.circular(30.0),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10.0,
-                    bottom: 30.0,
-                    left: 10.0,
-                    right: 10.0,
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        widget.character.name,
-                        style: TextStyles.characterDetailsName,
-                        textAlign: TextAlign.center,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            size: 15,
-                            color: _getStatusColor(widget.character.status),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10.0,
+                  bottom: 30.0,
+                  left: 10.0,
+                  right: 10.0,
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      widget.character.name,
+                      style: TextStyles.characterDetailsName,
+                      textAlign: TextAlign.center,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.circle,
+                          size: 15,
+                          color: _getStatusColor(widget.character.status),
+                        ),
+                        Flexible(
+                          child: Text(
+                            "${widget.character.status} - ${widget.character.gender}",
+                            style: TextStyles.characterDetails,
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
                           ),
-                          Flexible(
-                            child: Text(
-                              "${widget.character.status} - ${widget.character.gender}",
-                              style: TextStyles.characterDetails,
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 35.0),
-                      _getCharacterDetailSubtitle(
-                        "Origin",
-                        Icons.location_history,
-                      ),
-                      Text(
-                        widget.character.origin.name,
-                        style: TextStyles.characterDetails,
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 15.0),
-                      _getCharacterDetailSubtitle(
-                        "Last Know Location",
-                        Icons.place_rounded,
-                      ),
-                      Text(
-                        widget.character.location.name,
-                        style: TextStyles.characterDetails,
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 15.0),
-                      _getCharacterDetailSubtitle(
-                        "First Seen In",
-                        Icons.tv_rounded,
-                      ),
-                      Text(
-                        (_episodes.isNotEmpty)
-                            ? "${_episodes[0].episode}: ${_episodes[0].name}"
-                            : "ERROR: Data could not be obtained...",
-                        style: TextStyles.characterDetails,
-                        textAlign: TextAlign.center,
-                      ),
-
-                      _getFeaturedEpisodesSection(),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 35.0),
+                    _getCharacterDetailSubtitle(
+                      "Origin",
+                      Icons.location_history,
+                    ),
+                    Text(
+                      widget.character.origin.name,
+                      style: TextStyles.characterDetails,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 15.0),
+                    _getCharacterDetailSubtitle(
+                      "Last Know Location",
+                      Icons.place_rounded,
+                    ),
+                    Text(
+                      widget.character.location.name,
+                      style: TextStyles.characterDetails,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 15.0),
+                    _getCharacterDetailSubtitle(
+                      "First Seen In",
+                      Icons.tv_rounded,
+                    ),
+                    Text(
+                      (_episodes.isNotEmpty)
+                          ? "${_episodes[0].episode}: ${_episodes[0].name}"
+                          : "ERROR: Data could not be obtained...",
+                      style: TextStyles.characterDetails,
+                      textAlign: TextAlign.center,
+                    ),
+            
+                    _getFeaturedEpisodesSection(),
+                  ],
                 ),
               ),
             ),
